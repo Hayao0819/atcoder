@@ -1,0 +1,9 @@
+main
+atcoder
+*.exe
+*.exe~
+*.so
+*.dylib
+*.dll
+bin/
+.DS_Store
