@@ -1,40 +1,22 @@
 package cmd
 
 import (
-	"os"
-	"path"
-	"path/filepath"
-
+	"github.com/Hayao0819/atcoder/code"
 	"github.com/Hayao0819/nahi/cobrautils"
 	"github.com/spf13/cobra"
 )
-
-func getContestList() (*[]string, error) {
-	pwd, err := os.Getwd()
-	if err != nil {
-		return nil, err
-	}
-
-	contests := []string{}
-	dirs, err := filepath.Glob(path.Join(pwd, "src", "*"))
-	if err != nil {
-		return nil, err
-	}
-	for _, dir := range dirs {
-		contests = append(contests, path.Base(dir))
-	}
-	return &contests, nil
-}
 
 func list() *cobra.Command {
 	cmd := cobra.Command{
 		Use: "list",
 		RunE: func(cmd *cobra.Command, args []string) error {
-			contests, err := getContestList()
+			contests, err := code.GetContestList()
 			if err != nil {
 				return err
 			}
-			cmd.Println(*contests)
+			for _, c := range *contests {
+				cmd.Println(c)
+			}
 			return nil
 		},
 	}
@@ -42,5 +24,5 @@ func list() *cobra.Command {
 }
 
 func init() {
-	cobrautils.AddSubCmds(list())
+	cobrautils.RegisterSubCmd(list())
 }

@@ -7,8 +7,10 @@ import (
 
 func Root() *cobra.Command {
 	cmd := cobra.Command{
-		Use: "atcoder-tools",
+		Use:           "atcoder-tools",
+		SilenceErrors: true,
+		SilenceUsage:  true,
 	}
-	cobrautils.AddSubCmdsToRoot(&cmd)
+	cobrautils.BindSubCmds(&cmd)
 	return &cmd
 }
