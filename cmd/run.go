@@ -2,6 +2,9 @@ package cmd
 
 import (
 	"fmt"
+	"path"
+
+	"log"
 
 	"github.com/Hayao0819/atcoder/code"
 	"github.com/Hayao0819/nahi/cobrautils"
@@ -98,10 +101,24 @@ func runCmd() *cobra.Command {
 				}
 			}
 
+			// Get target script path
 			fullpath := code.GetPath(contest, problem, file)
 
-			if err := code.Execute(fullpath); err != nil {
+			// Get test cases
+			testcases, err := code.GetTestCases(contest, problem)
+			if err != nil {
 				return err
+			}
+
+			// Execute target script with test cases
+			if len(*testcases) == 0 {
+				return fmt.Errorf("no test case found")
+			}
+			for _, testcase := range *testcases {
+				log.Printf("Execute %s-%s with %s", contest, problem, path.Base(testcase))
+				if err := code.Execute(fullpath, testcase); err != nil {
+					return err
+				}
 			}
 			return nil
 		},

@@ -9,14 +9,15 @@ import (
 )
 
 type options = struct {
-	maxDepth int
-	minDepth int
-	fileOnly bool
-	dirOnly  bool
-	extOnly  string
-	filename bool
-	extsOnly []string
-	relpath  bool
+	maxDepth       int
+	minDepth       int
+	fileOnly       bool
+	dirOnly        bool
+	extOnly        string
+	filename       bool
+	extsOnly       []string
+	relpath        bool
+	executableOnly bool
 }
 
 type Option func(*options)
@@ -76,6 +77,16 @@ func WithRelPath() Option {
 	}
 }
 
+func isExecutable(mode os.FileMode) bool {
+	return mode&0111 != 0
+}
+
+func WithExecutableOnly() Option {
+	return func(opt *options) {
+		opt.executableOnly = true
+	}
+}
+
 func Get(dir string, opts ...Option) (*[]string, error) {
 	opt := options{
 		maxDepth: -1,
@@ -118,6 +129,17 @@ func Get(dir string, opts ...Option) (*[]string, error) {
 		}
 		if depthDiff < opt.minDepth {
 			return nil
+		}
+
+		// 実行可能ファイルのみ
+		if opt.executableOnly {
+			info, err := os.Stat(path)
+			if err != nil {
+				return nil
+			}
+			if !isExecutable(info.Mode()) {
+				return nil
+			}
 		}
 
 		// 拡張子

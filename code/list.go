@@ -41,7 +41,7 @@ func GetCodeList(contest, problem string) (*[]string, error) {
 		return nil, err
 	}
 
-	files, err := flist.Get(path.Join(pwd, "src", contest, problem), flist.WithFileOnly(), flist.WithExactDepth(1), flist.WithFileName())
+	files, err := flist.Get(path.Join(pwd, "src", contest, problem), flist.WithFileOnly(), flist.WithExactDepth(1), flist.WithFileName(), flist.WithExecutableOnly())
 	if err != nil {
 		return nil, err
 	}
