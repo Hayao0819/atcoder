@@ -7,3 +7,4 @@ atcoder
 *.dll
 bin/
 .DS_Store
+.mypy_cache/
