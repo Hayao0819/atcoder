@@ -3,7 +3,7 @@ module github.com/Hayao0819/atcoder
 go 1.21.6
 
 require (
-	github.com/Hayao0819/nahi v0.0.2-0.20240513024050-3484b85dccd2
+	github.com/Hayao0819/nahi v0.0.3-0.20240607124610-8fc5a3b3254b
 	github.com/manifoldco/promptui v0.9.0
 	github.com/spf13/cobra v1.8.0
 )

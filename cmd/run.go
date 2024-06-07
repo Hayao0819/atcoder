@@ -17,7 +17,6 @@ func runCmd() *cobra.Command {
 		Use:  "run",
 		Args: cobra.MaximumNArgs(3),
 		RunE: func(cmd *cobra.Command, args []string) error {
-
 			contest := ""
 			problem := ""
 			file := ""
@@ -102,7 +101,10 @@ func runCmd() *cobra.Command {
 			}
 
 			// Get target script path
-			fullpath := code.GetPath(contest, problem, file)
+			fullpath, err := code.GetPath(contest, problem, file)
+			if err != nil {
+				return err
+			}
 
 			// Get test cases
 			testcases, err := code.GetTestCases(contest, problem)

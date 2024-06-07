@@ -7,7 +7,7 @@ import (
 
 func Root() *cobra.Command {
 	cmd := cobra.Command{
-		Use:           "atcoder-tools",
+		Use:           "atcoder-runner",
 		//SilenceErrors: true,
 		SilenceUsage:  true,
 	}
